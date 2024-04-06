@@ -1,5 +1,5 @@
 <!--Referenced https://javascript.plainenglish.io/build-tic-tac-toe-game-using-javascript-3afba3c8fdcc to create project-->
-<!--First time using html/css!!-->
+<!--First time using html/css/js!!-->
 <!--Started April 5, 2024-->
 
 <!DOCTYPE html>
@@ -7,27 +7,27 @@
     <head>
         <title>Tic Tac Toe Game</title>
         <link rel="stylesheet" href="src/css/style.css">
-        <script src="src/js/main.js"></script>
     </head>
 
     <body>
         <section>
             <h1 class="gameTitle">Tic Tac Toe</h1>
             
-            <div class="gameGrid" onclick="setValue()">
-                <div cellIndex="1" class="cell"></div>
-                <div cellIndex="2" class="cell"></div>
-                <div cellIndex="3" class="cell"></div>
-                <div cellIndex="4" class="cell"></div>
-                <div cellIndex="5" class="cell"></div>
-                <div cellIndex="6" class="cell"></div>
-                <div cellIndex="7" class="cell"></div>
-                <div cellIndex="8" class="cell"></div>
-                <div cellIndex="9" class="cell"></div>
+            <div class="gameGrid">
+                <div data-index="0" class="cell"></div>
+                <div data-index="1" class="cell"></div>
+                <div data-index="2" class="cell"></div>
+                <div data-index="3" class="cell"></div>
+                <div data-index="4" class="cell"></div>
+                <div data-index="5" class="cell"></div>
+                <div data-index="6" class="cell"></div>
+                <div data-index="7" class="cell"></div>
+                <div data-index="8" class="cell"></div>
             </div>
         </section>
 
         <h2 class="gameStatus"></h2>
         <button class="restartButton">Restart Game</button>
+        <script src="src/js/main.js"></script>
     </body>
 </html>
