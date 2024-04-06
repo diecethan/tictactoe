@@ -1,0 +1,25 @@
+body {
+    font-family: "Arial", sans-serif;
+}
+
+section {
+    text-align: center;
+}
+
+.gameTitle {
+    font-size: 60px;
+}
+
+.gameGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    width: 300px;
+    margin: 25px auto;
+}
+
+.cell {
+    width: 100px;
+    height: 100px;
+    border: 1px solid #333333;
+    cursor: pointer;
+}
