@@ -19,21 +19,15 @@ var board = [
 function setValue(clickEvent) {
     const clickedCell = clickEvent.target;
     const clickedCellIndex = clickedCell.getAttribute("data-index");
-    //console.log(clickedCellIndex);
 
     const clickedCellRow = Math.floor(clickedCellIndex / 3);
     const clickedCellCol = clickedCellIndex % 3;
-    //console.log(clickedCellRow);
-    //console.log(clickedCellCol);
 
     if(board[clickedCellRow][clickedCellCol] == "_") {
         board[clickedCellRow][clickedCellCol] = currentPlayer;
+        clickedCell.style.backgroundImage = currentPlayer === 'X' ? 'url(images/o.png)' : 'url(images/x.png)';
+        currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
     }
-    //console.log(board[clickedCellRow][clickedCellCol]);
-
-    
-
-    /* TODO: Setting the board to also show the value...Next turn...figure out more later :) */
 }
 
 //Checks if either player has won and returns the value of the winning player

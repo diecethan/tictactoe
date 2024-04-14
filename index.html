@@ -10,24 +10,34 @@
     </head>
 
     <body>
-        <section>
-            <h1 class="gameTitle">Tic Tac Toe</h1>
-            
-            <div class="gameGrid">
-                <div data-index="0" class="cell"></div>
-                <div data-index="1" class="cell"></div>
-                <div data-index="2" class="cell"></div>
-                <div data-index="3" class="cell"></div>
-                <div data-index="4" class="cell"></div>
-                <div data-index="5" class="cell"></div>
-                <div data-index="6" class="cell"></div>
-                <div data-index="7" class="cell"></div>
-                <div data-index="8" class="cell"></div>
-            </div>
-        </section>
+        <div class="container">
+            <section class="gameBoard">
+                <h1 class="gameTitle">Tic Tac Toe</h1>
+                
+                <div class="gameGrid">
+                    <div data-index="0" class="cell"></div>
+                    <div data-index="1" class="cell"></div>
+                    <div data-index="2" class="cell"></div>
+                    <div data-index="3" class="cell"></div>
+                    <div data-index="4" class="cell"></div>
+                    <div data-index="5" class="cell"></div>
+                    <div data-index="6" class="cell"></div>
+                    <div data-index="7" class="cell"></div>
+                    <div data-index="8" class="cell"></div>
+                </div>
+            </section>
 
-        <h2 class="gameStatus"></h2>
-        <button class="restartButton">Restart Game</button>
+            <div class="gameInfo">
+                <section class="status">
+                    <h1 class="gameStatus">Current Player</h1>
+                </section>
+
+                <section class="buttons">
+                    <button class="restartButton">Restart Game</button>
+                </section>
+            </div>
+        </div>
+
         <script src="src/js/main.js"></script>
     </body>
 </html>

@@ -6,8 +6,35 @@ section {
     text-align: center;
 }
 
+.container {
+    display: flex;
+    justify-content: center;
+}
+
+.gameBoard {
+    margin-right: 10%;
+}
+
+.gameInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.status {
+    margin-top: 15%;
+}
+
+.buttons {
+    margin-top: auto;
+}
+
 .gameTitle {
     font-size: 60px;
+}
+
+.gameStatus {
+    font-size: 30px;
 }
 
 .gameGrid {
@@ -22,5 +49,7 @@ section {
     height: 100px;
     border: 1px solid #333333;
     cursor: pointer;
-    background-image: url(images/x.png);
+    background-size: 70%;
+    background-repeat: no-repeat;
+    background-position: center;
 }
