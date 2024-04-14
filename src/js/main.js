@@ -1,4 +1,6 @@
-var currentPlayer = "X"; //make this randomized
+//Creates the variable for the current player and randomizes the starting value
+var currentPlayer = (Math.round(Math.random()) == 1) ? 'X' : 'O';
+
 
 //Adds an eventListener to each cell
 const cellList = document.getElementsByClassName("cell");
@@ -28,6 +30,8 @@ function setValue(clickEvent) {
         board[clickedCellRow][clickedCellCol] = currentPlayer;
     }
     //console.log(board[clickedCellRow][clickedCellCol]);
+
+    
 
     /* TODO: Setting the board to also show the value...Next turn...figure out more later :) */
 }
