@@ -5,18 +5,36 @@ var board = [
     ['_', '_', '_']
 ];
 
-//Runs this function when the DOM is fully loaded
+//Runs this function when the DOM is fully loaded or when the Restart Button is clicked
 document.addEventListener("DOMContentLoaded", setup);
-var currentPlayer, xScore, oScore, gameRun;
+document.querySelector(".restartButton").addEventListener("click", setup);
+var currentPlayer, gameRun;
+var xScore = 0;
+var oScore = 0;
 function setup() {
-    currentPlayer = (Math.round(Math.random()) == 1) ? 'X' : 'O';
-    xScore = 0;
-    oScore = 0;
+    if(xScore == oScore) {
+        currentPlayer = (Math.round(Math.random()) == 1) ? 'X' : 'O';
+    } else {
+        currentPlayer = xScore > oScore ? 'O' : 'X';
+    }
+    
     gameRun = true;
 
     document.querySelector(".currentPlayer").textContent = "Current Player: " + currentPlayer;
-    document.querySelector(".xScore").textContent = "Player X Score: 0";
-    document.querySelector(".oScore").textContent = "Player O Score: 0";
+    document.querySelector(".xScore").textContent = "Player X Score: " + xScore;
+    document.querySelector(".oScore").textContent = "Player O Score: " + oScore;
+
+    //Sets all the cells to blank and resets the board variable
+    const cellList = document.getElementsByClassName("cell");
+    for(var i = 0; i < cellList.length; i++) {
+        cellList[i].style.backgroundImage = "none";
+    }
+
+    board = [
+        ['_', '_', '_'],
+        ['_', '_', '_'],
+        ['_', '_', '_']
+    ];
 }
 
 //Adds an eventListener to each cell
@@ -42,11 +60,21 @@ function setValue(clickEvent) {
     }
 
     var gameOver = gameOverCheck();
-    if(gameOver != '_') {
-        document.querySelector(".winner").textContent = "Player " + gameOver + " Wins!";
-        gameRun = false;
+    if(typeof(gameOver) != "number" && gameRun) {
+        if(gameOver == 'O') {
+            oScore++;
+            document.querySelector(".oScore").textContent = "Player O Score: " + oScore;
+        } else {
+            xScore++;
+            document.querySelector(".xScore").textContent = "Player X Score: " + xScore;
+        }
 
-        
+        document.querySelector(".currentPlayer").textContent = "Player " + gameOver + " Wins!";
+        gameRun = false;
+    }
+    else if(gameOver == 0 && gameRun) {
+        document.querySelector(".currentPlayer").textContent = "Tie Game!";
+        gameRun = false;
     }
 }
 
@@ -71,13 +99,18 @@ function gameOverCheck() {
         return board[0][0];
     }
     
-    if(board[0][2] == board[1][1] && board[0][0] == board[2][0] && board[0][2] != '_') {
+    if(board[0][2] == board[1][1] && board[0][2] == board[2][0] && board[0][2] != '_') {
         return board[0][2];
     }
 
-    return '_';
-}
-
-function restartGame() {
-
+    //Returns if there are still empty cells (0 means there is a tie; 1+ means to keep playing)
+    var blankSpaces = 0;
+    for(var i = 0; i < 3; i++) {
+        for(var j = 0; j < 3; j++) {
+            if(board[i][j] == '_') {
+                blankSpaces++;
+            }
+        }
+    }
+    return blankSpaces;
 }
