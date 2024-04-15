@@ -1,14 +1,7 @@
-//This variable holds the values of each cell (empty, X, O)
-var board = [
-    ['_', '_', '_'],
-    ['_', '_', '_'],
-    ['_', '_', '_']
-];
-
 //Runs this function when the DOM is fully loaded or when the Restart Button is clicked
 document.addEventListener("DOMContentLoaded", setup);
 document.querySelector(".restartButton").addEventListener("click", setup);
-var currentPlayer, gameRun;
+var currentPlayer, gameRun, board;
 var xScore = 0;
 var oScore = 0;
 function setup() {
