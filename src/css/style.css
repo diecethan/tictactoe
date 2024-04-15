@@ -6,6 +6,11 @@ section {
     text-align: center;
 }
 
+h2 {
+    font-size: 30px;
+    margin-top: 10%;
+}
+
 .container {
     display: flex;
     justify-content: center;
@@ -31,10 +36,6 @@ section {
 
 .gameTitle {
     font-size: 60px;
-}
-
-.gameStatus {
-    font-size: 30px;
 }
 
 .gameGrid {
