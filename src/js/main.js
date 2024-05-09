@@ -5,6 +5,8 @@ var currentPlayer, gameRun, board;
 var xScore = 0;
 var oScore = 0;
 function setup() {
+    /* Randomizes who starts the game if the score is tied.
+     * Otherwise, the starting turn is given to losing player. */
     if(xScore == oScore) {
         currentPlayer = (Math.round(Math.random()) == 1) ? 'X' : 'O';
     } else {
@@ -13,6 +15,7 @@ function setup() {
     
     gameRun = true;
 
+    //Sets the text for these sections (current turn & player scores)
     document.querySelector(".currentPlayer").textContent = "Current Player: " + currentPlayer;
     document.querySelector(".xScore").textContent = "Player X Score: " + xScore;
     document.querySelector(".oScore").textContent = "Player O Score: " + oScore;
@@ -30,13 +33,11 @@ function setup() {
     ];
 }
 
-//Adds an eventListener to each cell
+//This function runs whenever a cell is clicked.
 const cellList = document.getElementsByClassName("cell");
 for(var i = 0; i < cellList.length; i++) {
     cellList[i].addEventListener("click", setValue);
 }
-
-//When a cell is clicked, its value will be set to the current player's value
 function setValue(clickEvent) {
     const clickedCell = clickEvent.target;
     const clickedCellIndex = clickedCell.getAttribute("data-index");
@@ -55,11 +56,9 @@ function setValue(clickEvent) {
     var gameOver = gameOverCheck();
     if(typeof(gameOver) != "number" && gameRun) {
         if(gameOver == 'O') {
-            oScore++;
-            document.querySelector(".oScore").textContent = "Player O Score: " + oScore;
+            document.querySelector(".oScore").textContent = "Player O Score: " + oScore++;
         } else {
-            xScore++;
-            document.querySelector(".xScore").textContent = "Player X Score: " + xScore;
+            document.querySelector(".xScore").textContent = "Player X Score: " + xScore++;
         }
 
         document.querySelector(".currentPlayer").textContent = "Player " + gameOver + " Wins!";
