@@ -56,9 +56,9 @@ function setValue(clickEvent) {
     var gameOver = gameOverCheck();
     if(typeof(gameOver) != "number" && gameRun) {
         if(gameOver == 'O') {
-            document.querySelector(".oScore").textContent = "Player O Score: " + oScore++;
+            document.querySelector(".oScore").textContent = "Player O Score: " + ++oScore;
         } else {
-            document.querySelector(".xScore").textContent = "Player X Score: " + xScore++;
+            document.querySelector(".xScore").textContent = "Player X Score: " + ++xScore;
         }
 
         document.querySelector(".currentPlayer").textContent = "Player " + gameOver + " Wins!";
