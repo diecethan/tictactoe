@@ -4,6 +4,7 @@ document.querySelector(".restartButton").addEventListener("click", setup);
 var currentPlayer, gameRun, board;
 var xScore = 0;
 var oScore = 0;
+var multiplayer = true;
 function setup() {
     /* Randomizes who starts the game if the score is tied.
      * Otherwise, the starting turn is given to losing player. */
@@ -33,6 +34,18 @@ function setup() {
     ];
 }
 
+//Resets the score and board & switches the game mode whenever the gameModeButton is clicked
+document.querySelector(".gameModeButton").addEventListener("click", gameMode);
+function gameMode() {
+    multiplayer = !multiplayer;
+    document.querySelector(".gameModeButton").textContent = multiplayer ? "Play Computer" : "Play Multiplayer";
+    
+    xScore = 0;
+    oScore = 0;
+    
+    setup();
+}
+
 //This function runs whenever a cell is clicked.
 const cellList = document.getElementsByClassName("cell");
 for(var i = 0; i < cellList.length; i++) {
@@ -47,9 +60,9 @@ function setValue(clickEvent) {
 
     if(board[clickedCellRow][clickedCellCol] == '_' && gameRun) {
         board[clickedCellRow][clickedCellCol] = currentPlayer;
-        clickedCell.style.backgroundImage = currentPlayer === 'X' ? 'url(images/x.png)' : 'url(images/o.png)';
+        clickedCell.style.backgroundImage = currentPlayer == 'X' ? 'url(images/x.png)' : 'url(images/o.png)';
         
-        currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+        currentPlayer = currentPlayer == 'X' ? 'O' : 'X';
         document.querySelector(".currentPlayer").textContent = "Current Player: " + currentPlayer;
     }
 
