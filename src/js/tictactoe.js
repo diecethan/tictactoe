@@ -81,6 +81,25 @@ function setValue(clickEvent) {
         document.querySelector(".currentPlayer").textContent = "Tie Game!";
         gameRun = false;
     }
+
+    if(!multiplayer) {
+        var compCell = (Math.round(Math.random()) * 9);
+        while(board[compCell] != '_') {
+            compCell = (Math.round(Math.random()) * 9);
+        }
+        board[compCell / 3][compCell % 3] = 'O';
+
+        gameOver = gameOverCheck();
+        if(typeof(gameOver) != "number" && gameRun) {
+            document.querySelector(".oScore").textContent = "Player O Score: " + ++oScore;
+            document.querySelector(".currentPlayer").textContent = "Player " + gameOver + " Wins!";
+            gameRun = false;
+        }
+        else if(gameOver == 0 && gameRun) {
+            document.querySelector(".currentPlayer").textContent = "Tie Game!";
+            gameRun = false;
+        }
+    }
 }
 
 //Checks if either player has won and returns the value of the winning player
