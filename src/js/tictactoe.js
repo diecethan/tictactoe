@@ -83,8 +83,9 @@ function setValue(clickEvent) {
     }
 
     if(!multiplayer) {
-        var compCell = (Math.round(Math.random()) * 9);
+        var compCell = Math.round(Math.random() * 9);
         while(board[compCell] != '_') {
+            console.log(compCell);
             compCell = (Math.round(Math.random()) * 9);
         }
         board[compCell / 3][compCell % 3] = 'O';
