@@ -32,6 +32,10 @@ function setup() {
         ['_', '_', '_'],
         ['_', '_', '_']
     ];
+
+    if(!multiplayer && currentPlayer == 'O') {
+        computerSelect();
+    }
 }
 
 //Resets the score and board & switches the game mode whenever the gameModeButton is clicked
@@ -52,47 +56,29 @@ for(var i = 0; i < cellList.length; i++) {
     cellList[i].addEventListener("click", setValue);
 }
 function setValue(clickEvent) {
-    const clickedCell = clickEvent.target;
-    const clickedCellIndex = clickedCell.getAttribute("data-index");
+    if(multiplayer || currentPlayer == 'X') {
+        const clickedCell = clickEvent.target;
+        const clickedCellIndex = clickedCell.getAttribute("data-index");
 
-    const clickedCellRow = Math.floor(clickedCellIndex / 3);
-    const clickedCellCol = clickedCellIndex % 3;
+        const clickedCellRow = Math.floor(clickedCellIndex / 3);
+        const clickedCellCol = clickedCellIndex % 3;
 
-    if(board[clickedCellRow][clickedCellCol] == '_' && gameRun) {
-        board[clickedCellRow][clickedCellCol] = currentPlayer;
-        clickedCell.style.backgroundImage = currentPlayer == 'X' ? 'url(images/x.png)' : 'url(images/o.png)';
-        
-        currentPlayer = currentPlayer == 'X' ? 'O' : 'X';
-        document.querySelector(".currentPlayer").textContent = "Current Player: " + currentPlayer;
-    }
-
-    var gameOver = gameOverCheck();
-    if(typeof(gameOver) != "number" && gameRun) {
-        if(gameOver == 'O') {
-            document.querySelector(".oScore").textContent = "Player O Score: " + ++oScore;
-        } else {
-            document.querySelector(".xScore").textContent = "Player X Score: " + ++xScore;
+        if(board[clickedCellRow][clickedCellCol] == '_' && gameRun) {
+            board[clickedCellRow][clickedCellCol] = currentPlayer;
+            clickedCell.style.backgroundImage = currentPlayer == 'X' ? 'url(images/x.png)' : 'url(images/o.png)';
+            
+            currentPlayer = currentPlayer == 'X' ? 'O' : 'X';
+            document.querySelector(".currentPlayer").textContent = "Current Player: " + currentPlayer;
         }
 
-        document.querySelector(".currentPlayer").textContent = "Player " + gameOver + " Wins!";
-        gameRun = false;
-    }
-    else if(gameOver == 0 && gameRun) {
-        document.querySelector(".currentPlayer").textContent = "Tie Game!";
-        gameRun = false;
-    }
-
-    if(!multiplayer) {
-        var compCell = Math.round(Math.random() * 9);
-        while(board[compCell / 3][compCell % 3] != '_') {
-            console.log(board[compCell / 3][compCell % 3]);
-            compCell = Math.round(Math.random() * 9);
-        }
-        board[compCell / 3][compCell % 3] = 'O';
-
-        gameOver = gameOverCheck();
+        var gameOver = gameOverCheck();
         if(typeof(gameOver) != "number" && gameRun) {
-            document.querySelector(".oScore").textContent = "Player O Score: " + ++oScore;
+            if(gameOver == 'O') {
+                document.querySelector(".oScore").textContent = "Player O Score: " + ++oScore;
+            } else {
+                document.querySelector(".xScore").textContent = "Player X Score: " + ++xScore;
+            }
+
             document.querySelector(".currentPlayer").textContent = "Player " + gameOver + " Wins!";
             gameRun = false;
         }
@@ -101,7 +87,45 @@ function setValue(clickEvent) {
             gameRun = false;
         }
     }
+    
+    if(!multiplayer) {
+        computerSelect();
+    }
 }
+
+//This function randomly selects a cell for the computer to play
+function computerSelect() {
+    var randCellNum = Math.round(Math.random() * 9);
+    var cellToChange = cellList[randCellNum];
+    var clickedCellRow = Math.floor(randCellNum / 3);
+    var clickedCellCol = randCellNum % 3;
+    
+    while(board[clickedCellRow][clickedCellCol] != '_') {
+        randCellNum = Math.round(Math.random() * 9);
+    }
+
+    console.log(clickedCellRow + " " + clickedCellCol);
+
+    board[clickedCellRow][clickedCellCol] = currentPlayer;
+    cellToChange.style.backgroundImage = 'url(images/o.png)';
+
+    console.log(board[clickedCellRow][clickedCellCol]);
+
+    currentPlayer = 'X';
+    document.querySelector(".currentPlayer").textContent = "Current Player: " + currentPlayer;
+
+    gameOver = gameOverCheck();
+    if(typeof(gameOver) != "number" && gameRun) {
+        document.querySelector(".oScore").textContent = "Player O Score: " + ++oScore;
+        document.querySelector(".currentPlayer").textContent = "Player " + gameOver + " Wins!";
+        gameRun = false;
+    }
+    else if(gameOver == 0 && gameRun) {
+        document.querySelector(".currentPlayer").textContent = "Tie Game!";
+        gameRun = false;
+    }
+}
+
 
 //Checks if either player has won and returns the value of the winning player
 function gameOverCheck() {
