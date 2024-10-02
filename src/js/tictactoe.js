@@ -1,7 +1,7 @@
 //Runs this function when the DOM is fully loaded or when the Restart Button is clicked
 document.addEventListener("DOMContentLoaded", setup);
 document.querySelector(".restartButton").addEventListener("click", setup);
-var currentPlayer, gameRun, board;
+var currentPlayer, gameRun, board, compBoard;
 var xScore = 0;
 var oScore = 0;
 var multiplayer = true;
@@ -32,6 +32,8 @@ function setup() {
         ['_', '_', '_'],
         ['_', '_', '_']
     ];
+    compBoard = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+
 
     if(!multiplayer && currentPlayer == 'O') {
         computerSelect();
@@ -55,13 +57,14 @@ const cellList = document.getElementsByClassName("cell");
 for(var i = 0; i < cellList.length; i++) {
     cellList[i].addEventListener("click", setValue);
 }
+var clickedCell, clickedCellIndex, clickedCellRow, clickedCellCol;
 function setValue(clickEvent) {
-    if(multiplayer || currentPlayer == 'X') {
-        const clickedCell = clickEvent.target;
-        const clickedCellIndex = clickedCell.getAttribute("data-index");
+    if((multiplayer || currentPlayer == 'X') && gameRun) {
+        clickedCell = clickEvent.target;
+        clickedCellIndex = clickedCell.getAttribute("data-index");
 
-        const clickedCellRow = Math.floor(clickedCellIndex / 3);
-        const clickedCellCol = clickedCellIndex % 3;
+        clickedCellRow = Math.floor(clickedCellIndex / 3);
+        clickedCellCol = clickedCellIndex % 3;
 
         if(board[clickedCellRow][clickedCellCol] == '_' && gameRun) {
             board[clickedCellRow][clickedCellCol] = currentPlayer;
@@ -87,32 +90,30 @@ function setValue(clickEvent) {
             gameRun = false;
         }
     }
-    
-    if(!multiplayer) {
+
+    if(!multiplayer && gameRun && currentPlayer != 'X') {
+        compBoard = compBoard.filter(filterCell);
         computerSelect();
     }
 }
 
+function filterCell(cellNum) {
+    return cellNum != clickedCellIndex;
+}
+
 //This function randomly selects a cell for the computer to play
 function computerSelect() {
-    var randCellNum = Math.round(Math.random() * 9);
+    var randCellNum = [Math.floor(Math.random() * compBoard.length)];
+    randCellNum = compBoard[randCellNum];
+    clickedCellIndex = randCellNum;
+    compBoard = compBoard.filter(filterCell);
+
     var cellToChange = cellList[randCellNum];
     var clickedCellRow = Math.floor(randCellNum / 3);
     var clickedCellCol = randCellNum % 3;
-    
-    while(board[clickedCellRow][clickedCellCol] != '_') {
-        randCellNum = Math.round(Math.random() * 9);
-    }
-
-    console.log(clickedCellRow + " " + clickedCellCol);
 
     board[clickedCellRow][clickedCellCol] = currentPlayer;
     cellToChange.style.backgroundImage = 'url(images/o.png)';
-
-    console.log(board[clickedCellRow][clickedCellCol]);
-
-    currentPlayer = 'X';
-    document.querySelector(".currentPlayer").textContent = "Current Player: " + currentPlayer;
 
     gameOver = gameOverCheck();
     if(typeof(gameOver) != "number" && gameRun) {
@@ -123,6 +124,9 @@ function computerSelect() {
     else if(gameOver == 0 && gameRun) {
         document.querySelector(".currentPlayer").textContent = "Tie Game!";
         gameRun = false;
+    } else {
+        currentPlayer = 'X';
+        document.querySelector(".currentPlayer").textContent = "Current Player: " + currentPlayer;
     }
 }
 
