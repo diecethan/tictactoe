@@ -57,15 +57,13 @@ const cellList = document.getElementsByClassName("cell");
 for(var i = 0; i < cellList.length; i++) {
     cellList[i].addEventListener("click", setValue);
 }
-var clickedCell, clickedCellIndex, clickedCellRow, clickedCellCol;
 function setValue(clickEvent) {
+    const clickedCell = clickEvent.target;
+    const clickedCellIndex = clickedCell.getAttribute("data-index");
+    const clickedCellRow = Math.floor(clickedCellIndex / 3);
+    const clickedCellCol = clickedCellIndex % 3;
+
     if((multiplayer || currentPlayer == 'X') && gameRun) {
-        clickedCell = clickEvent.target;
-        clickedCellIndex = clickedCell.getAttribute("data-index");
-
-        clickedCellRow = Math.floor(clickedCellIndex / 3);
-        clickedCellCol = clickedCellIndex % 3;
-
         if(board[clickedCellRow][clickedCellCol] == '_' && gameRun) {
             board[clickedCellRow][clickedCellCol] = currentPlayer;
             clickedCell.style.backgroundImage = currentPlayer == 'X' ? 'url(images/x.png)' : 'url(images/o.png)';
@@ -92,25 +90,19 @@ function setValue(clickEvent) {
     }
 
     if(!multiplayer && gameRun && currentPlayer != 'X') {
-        compBoard = compBoard.filter(filterCell);
+        compBoard = compBoard.filter((num) => num != clickedCellIndex);
         computerSelect();
     }
 }
 
-function filterCell(cellNum) {
-    return cellNum != clickedCellIndex;
-}
-
 //This function randomly selects a cell for the computer to play
 function computerSelect() {
-    var randCellNum = [Math.floor(Math.random() * compBoard.length)];
-    randCellNum = compBoard[randCellNum];
-    clickedCellIndex = randCellNum;
-    compBoard = compBoard.filter(filterCell);
+    const randCellNum = compBoard[Math.floor(Math.random() * compBoard.length)];
+    compBoard = compBoard.filter((num) => num != randCellNum);
 
-    var cellToChange = cellList[randCellNum];
-    var clickedCellRow = Math.floor(randCellNum / 3);
-    var clickedCellCol = randCellNum % 3;
+    const cellToChange = cellList[randCellNum];
+    const clickedCellRow = Math.floor(randCellNum / 3);
+    const clickedCellCol = randCellNum % 3;
 
     board[clickedCellRow][clickedCellCol] = currentPlayer;
     cellToChange.style.backgroundImage = 'url(images/o.png)';
